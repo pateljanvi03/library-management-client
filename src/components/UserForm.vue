@@ -25,13 +25,13 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-              <label for="userName" class="block text-sm font-medium text-black-700">Username</label>
-              <ValidationProvider name="userName" rules="required" v-slot="{ errors }">
+              <label for="username" class="block text-sm font-medium text-black-700">Username</label>
+              <ValidationProvider name="username" rules="required" v-slot="{ errors }">
                 <input
-                  v-model="form.userName"
+                  v-model="form.username"
                   type="text"
-                  name="userName"
-                  id="userName"
+                  name="username"
+                  id="username"
                   class="mt-2 appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400"
                   :class="errors.length ? 'focus:ring-2 focus:ring-sky-500 ring-2 ring-rose-400' : 'focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200'"
                 />
@@ -120,7 +120,7 @@ export default {
     return {
       form: {
         name: "",
-        userName: "",
+        username: "",
         password: ""
       },
       isLoading: false
@@ -143,7 +143,7 @@ export default {
       } else {
         this.form = {
           name: "",
-          userName: "",
+          username: "",
           password: ""
         };
       }
@@ -161,7 +161,7 @@ export default {
         }
         this.form = {
           name: "",
-          userName: "",
+          username: "",
           password: ""
         };
         this.$emit("refresh");

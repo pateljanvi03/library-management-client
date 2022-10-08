@@ -88,7 +88,7 @@
                       >{{ user.name }}</td>
                       <td
                         class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                      >{{ user.userName }}</td>
+                      >{{ user.username }}</td>
                       <td
                         class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                       >
@@ -104,7 +104,7 @@
                       <td>
                         <a
                           class="text-indigo-600 hover:text-indigo-900 ml-2 hover:cursor-pointer"
-                          @click="deleteFromTable(user._id)"
+                          @click="deleteFromUser(user._id)"
                         >Delete</a>
                       </td>
                     </tr>
@@ -142,10 +142,10 @@ export default {
     async loadData() {
       this.isLoading = true;
       const response = await axios.get("/users");
-      this.users = response.data;
+      this.users = response.data.users;
       this.isLoading = false;
     },
-    async deleteFromTable(id) {
+    async deleteFromUser(id) {
       if (confirm("Are you sure you wants to delete?") === true) {
         await axios.delete("/users/" + id);
         this.loadData();
