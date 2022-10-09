@@ -35,6 +35,36 @@
               </button>
             </div>
 
+            <div class="flex bg-white mt-4 border rounded-lg shodow py-6 px-4">
+                <div class="px-2">
+                  <select
+                  v-model="filters.status"
+                  class="mt-1 w-full border pl-3 pr-10 py-2 text-base border-gray-300 sm:text-sm rounded-md"
+                >
+                  <option value>Select Status</option>
+                  <option value="borrowed">Borrowed</option>
+                  <option value="returned">Returned</option>
+                </select>
+                </div>
+                <div class="px-2"><input v-model="filters.shelf" placeholder="Shelf" class="appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" /></div>
+                <button @click="loadBookItems" class="bg-indigo-600 px-4 py-2 flex text-white rounded ml-4">
+                  <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  class="w-5 h-5 pt-1 mr-2">
+                      <path 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" 
+                      />
+                  </svg>
+                  Search 
+                </button>
+            </div>
+
             <div class="mt-8 flex flex-col">
               <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -47,7 +77,7 @@
                           <th
                             scope="col"
                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                          >BookId</th>
+                          >Book</th>
                           <th
                             scope="col"
                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -90,7 +120,7 @@
                         <tr v-else v-for="bookItem in bookItems" :key="bookItem._id">
                           <td
                             class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                          >{{ bookItem.bookId }}</td>
+                          >{{ bookItem.bookId .title }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ bookItem.status }}</td>
@@ -127,13 +157,13 @@
                           Showing
                           <span class="font-medium">{{bookItems.length}}</span>
                           results of page number
-                          <span class="font-medium">{{page}}</span>
+                          <span class="font-medium">{{filters.page}}</span>
                         </p>
                       </div>
                       <div class="flex flex-1 justify-between sm:justify-end">
                         <select
                           @change="loadBookItems"
-                          v-model="limit"
+                          v-model="filters.limit"
                           class="py-2 w-ayto border pl-3 pr-3 mr-4 text-base border-gray-300 sm:text-sm rounded-md"
                         >
                           <option value="10">10</option>
@@ -178,8 +208,12 @@ export default {
       bookItems: [],
       isLoading: false,
       editableBookItem: {},
-      page: 1,
-      limit: 10
+      filters: {
+        page: 1,
+        limit: 10,
+        status:"",
+        shelf:""
+      }
     };
   },
   created() {
@@ -197,10 +231,7 @@ export default {
     async loadBookItems() {
       this.isLoading = true;
       const response = await axios.get("/bookItems", {
-        params: {
-          page: this.page,
-          limit: this.limit
-        }
+        params: this.filters
       });
       const bookItems = response.data.bookItems;
       this.bookItems = bookItems;
@@ -219,11 +250,11 @@ export default {
       }
     },
     async nextPage() {
-      this.page++;
+      this.filters.page++;
       this.loadBookItems();
     },
     async previousPage() {
-      this.page--;
+      this.filters.page--;
       this.loadBookItems();
     },
     showForm() {

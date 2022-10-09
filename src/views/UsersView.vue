@@ -34,6 +34,30 @@
             Add user
           </button>
         </div>
+
+        <div class="flex bg-white mt-4 border rounded-lg shodow py-6 px-4">
+                <div class="px-2">
+                  <input v-model="filters.name" placeholder="Name" class="appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" />
+                </div>
+                <div class="px-2"><input v-model="filters.username" placeholder="Username" class="appearance-none text-slate-900 bg-white rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-sky-500 ring-1 ring-slate-200" /></div>
+                <button @click="loadData" class="bg-indigo-600 px-4 py-2 flex text-white rounded ml-4">
+                  <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  class="w-5 h-5 pt-1 mr-2">
+                      <path 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round" 
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" 
+                      />
+                  </svg>
+                  Search 
+                </button>
+            </div>
+
         <div class="mt-8 flex flex-col">
           <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -119,13 +143,13 @@
                       Showing
                       <span class="font-medium">{{users.length}}</span>
                       results of page number
-                      <span class="font-medium">{{page}}</span>
+                      <span class="font-medium">{{filters.page}}</span>
                     </p>
                   </div>
                   <div class="flex flex-1 justify-between sm:justify-end">
                     <select
                       @change="loadData"
-                      v-model="limit"
+                      v-model="filters.limit"
                       class="py-2 w-ayto border pl-3 pr-3 mr-4 text-base border-gray-300 sm:text-sm rounded-md"
                     >
                       <option value="10">10</option>
@@ -169,8 +193,12 @@ export default {
       selectedId: "",
       isLoading: false,
       editableUser: {},
-      page: 1,
-      limit: 10
+      filters: {
+        page: 1,
+        limit: 10,
+        name:"",
+        username:""
+      }
     };
   },
   created() {
@@ -188,10 +216,7 @@ export default {
     async loadData() {
       this.isLoading = true;
       const response = await axios.get("/users", {
-        params: {
-          page: this.page,
-          limit: this.limit
-        }
+        params: this.filters
       });
       this.users = response.data.users;
       this.isLoading = false;
@@ -211,11 +236,11 @@ export default {
       this.$modal.show("user-form");
     },
     async nextPage() {
-      this.page++;
+      this.filters.page++;
       this.loadData();
     },
     async previousPage() {
-      this.page--;
+      this.filters.page--;
       this.loadData();
     }
   }
