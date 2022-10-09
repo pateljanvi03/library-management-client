@@ -110,6 +110,42 @@
                     </tr>
                   </tbody>
                 </table>
+                <nav
+                  class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+                  aria-label="Pagination"
+                >
+                  <div class="hidden sm:block">
+                    <p class="text-sm text-gray-700">
+                      Showing
+                      <span class="font-medium">{{users.length}}</span>
+                      results of page number
+                      <span class="font-medium">{{page}}</span>
+                    </p>
+                  </div>
+                  <div class="flex flex-1 justify-between sm:justify-end">
+                    <select
+                      @change="loadData"
+                      v-model="limit"
+                      class="py-2 w-ayto border pl-3 pr-3 mr-4 text-base border-gray-300 sm:text-sm rounded-md"
+                    >
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                    </select>
+
+                    <button
+                      :disabled="disablePreviousButton"
+                      @click="previousPage"
+                      :class="disablePreviousButton?'text-gray-300':'text-gary-700'"
+                      class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                    >Previous</button>
+                    <button
+                      :disabled="disableNextButton"
+                      @click="nextPage"
+                      :class="disableNextButton?'text-gray-300':'text-gary-700'"
+                      class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                    >Next</button>
+                  </div>
+                </nav>
               </div>
             </div>
           </div>
@@ -132,16 +168,31 @@ export default {
       users: [],
       selectedId: "",
       isLoading: false,
-      editableUser: {}
+      editableUser: {},
+      page: 1,
+      limit: 10
     };
   },
   created() {
     this.loadData();
   },
+  computed: {
+    disablePreviousButton() {
+      return this.page == 1;
+    },
+    disableNextButton() {
+      return this.users.length < this.limit;
+    }
+  },
   methods: {
     async loadData() {
       this.isLoading = true;
-      const response = await axios.get("/users");
+      const response = await axios.get("/users", {
+        params: {
+          page: this.page,
+          limit: this.limit
+        }
+      });
       this.users = response.data.users;
       this.isLoading = false;
     },
@@ -158,6 +209,14 @@ export default {
     edit(user) {
       this.editableUser = user;
       this.$modal.show("user-form");
+    },
+    async nextPage() {
+      this.page++;
+      this.loadData();
+    },
+    async previousPage() {
+      this.page--;
+      this.loadData();
     }
   }
 };

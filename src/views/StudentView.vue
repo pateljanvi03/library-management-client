@@ -153,6 +153,42 @@
                         </tr>
                       </tbody>
                     </table>
+                    <nav
+                    class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+                    aria-label="Pagination"
+                    >
+                      <div class="hidden sm:block">
+                        <p class="text-sm text-gray-700">
+                          Showing
+                          <span class="font-medium">{{students.length}}</span>
+                          results of page number
+                          <span class="font-medium">{{page}}</span>
+                        </p>
+                      </div>
+                      <div class="flex flex-1 justify-between sm:justify-end">
+                        <select
+                          @change="loadStudents"
+                          v-model="limit"
+                          class="py-2 w-ayto border pl-3 pr-3 mr-4 text-base border-gray-300 sm:text-sm rounded-md"
+                        >
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>
+
+                        <button
+                          :disabled="disablePreviousButton"
+                          @click="previousPage"
+                          :class="disablePreviousButton?'text-gray-300':'text-gary-700'"
+                          class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                        >Previous</button>
+                        <button
+                          :disabled="disableNextButton"
+                          @click="nextPage"
+                          :class="disableNextButton?'text-gray-300':'text-gary-700'"
+                          class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                        >Next</button>
+                      </div>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -176,16 +212,31 @@ export default {
     return {
       students: [],
       isLoading: false,
-      editableStudent: {}
+      editableStudent: {},
+      page: 1,
+      limit: 10
     };
   },
   created() {
     this.loadStudents();
   },
+  computed: {
+    disablePreviousButton() {
+      return this.page == 1;
+    },
+    disableNextButton() {
+      return this.students.length < this.limit;
+    }
+  },
   methods: {
     async loadStudents() {
       this.isLoading = true;
-      const response = await axios.get("/students");
+      const response = await axios.get("/students", {
+        params: {
+          page: this.page,
+          limit: this.limit
+        }
+      });
       this.students = response.data.students;
       this.isLoading = false;
     },
@@ -200,6 +251,14 @@ export default {
         await axios.delete("/students/" + student._id);
         await this.loadStudents();
       }
+    },
+    async nextPage() {
+      this.page++;
+      this.loadStudents();
+    },
+    async previousPage() {
+      this.page--;
+      this.loadStudents();
     },
     showForm() {
       this.editableStudent = {};

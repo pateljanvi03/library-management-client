@@ -55,10 +55,6 @@
                           <th
                             scope="col"
                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                          >Image</th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                           >CategoryId</th>
                           <th
                             scope="col"
@@ -75,15 +71,7 @@
                           <th
                             scope="col"
                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                          >PublicationYear</th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                          >Price</th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                          >Description</th>
+                          >PublicationYear</th>                          
                           <th
                             scope="col"
                             class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -128,9 +116,6 @@
                           >{{ book.ISBN }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                          >{{ book.image }}</td>
-                          <td
-                            class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ book.categoryId }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
@@ -144,12 +129,6 @@
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ book.publicationYear }}</td>
-                          <td
-                            class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                          >{{ book.price }}</td>
-                          <td
-                            class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                          >{{ book.description }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ book.quantity }}</td>
@@ -174,6 +153,42 @@
                         </tr>
                       </tbody>
                     </table>
+                    <nav
+                    class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
+                    aria-label="Pagination"
+                    >
+                      <div class="hidden sm:block">
+                        <p class="text-sm text-gray-700">
+                          Showing
+                          <span class="font-medium">{{books.length}}</span>
+                          results of page number
+                          <span class="font-medium">{{page}}</span>
+                        </p>
+                      </div>
+                      <div class="flex flex-1 justify-between sm:justify-end">
+                        <select
+                          @change="loadBooks"
+                          v-model="limit"
+                          class="py-2 w-ayto border pl-3 pr-3 mr-4 text-base border-gray-300 sm:text-sm rounded-md"
+                        >
+                          <option value="10">10</option>
+                          <option value="20">20</option>
+                        </select>
+
+                        <button
+                          :disabled="disablePreviousButton"
+                          @click="previousPage"
+                          :class="disablePreviousButton?'text-gray-300':'text-gary-700'"
+                          class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                        >Previous</button>
+                        <button
+                          :disabled="disableNextButton"
+                          @click="nextPage"
+                          :class="disableNextButton?'text-gray-300':'text-gary-700'"
+                          class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-50"
+                        >Next</button>
+                      </div>
+                    </nav>
                   </div>
                 </div>
               </div>
@@ -197,16 +212,31 @@ export default {
     return {
       books: [],
       isLoading: false,
-      editableBook: {}
+      editableBook: {},
+      page: 1,
+      limit: 10
     };
   },
   created() {
     this.loadBooks();
   },
+  computed: {
+    disablePreviousButton() {
+      return this.page == 1;
+    },
+    disableNextButton() {
+      return this.books.length < this.limit;
+    }
+  },
   methods: {
     async loadBooks() {
       this.isLoading = true;
-      const response = await axios.get("/books");
+      const response = await axios.get("/books",{
+      params: {
+          page: this.page,
+          limit: this.limit
+        }
+    });
       this.books = response.data.books;
       this.isLoading = false;
     },
@@ -221,6 +251,14 @@ export default {
         await axios.delete("/books/" + book._id);
         await this.loadBooks();
       }
+    },
+    async nextPage() {
+      this.page++;
+      this.loadBooks();
+    },
+    async previousPage() {
+      this.page--;
+      this.loadBooks();
     },
     showForm() {
       this.editableBook = {};
