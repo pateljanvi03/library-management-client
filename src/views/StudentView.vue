@@ -113,7 +113,7 @@
                           >{{ student.name }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                          >{{ student.branch }}</td>
+                          >{{ student.branch ? student.branch.title : 'a' }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ student.enrollmentNumber }}</td>

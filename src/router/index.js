@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import LoginView from '../views/LoginView.vue'
 import UsersView from '../views/UsersView.vue'
 import CategoryView from '../views/CategoryView.vue'
@@ -8,10 +8,9 @@ import BranchView from '../views/BranchView.vue'
 import StudentView from '../views/StudentView.vue'
 import BookView from '../views/BookView.vue'
 import BookItemView from '../views/BookItemView.vue'
-
 import axios from 'axios'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -54,13 +53,13 @@ const routes = [
     name: 'book-items',
     component: BookItemView
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+  base: import.meta.env.BASE_URL,
+  routes,
+});
 
 router.beforeEach((req, res, next) => {
   // if (!localStorage.getItem("authToken")) {
@@ -76,4 +75,4 @@ router.beforeEach((req, res, next) => {
   next()
 })
 
-export default router
+export default router;

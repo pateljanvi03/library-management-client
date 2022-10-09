@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-full bg-gray-100">
+  <div class="h-full bg-gray-100">
     <div>
       <SideBar v-if="$route.path !== '/login'"></SideBar>
       <TopBar v-if="$route.path !== '/login'"></TopBar>
