@@ -105,13 +105,13 @@ export default {
       try {
         this.isLoading = true;
         this.error = undefined;
-        const response = await axios.post("/users/login", {
-          userName: this.userName,
+        const response = await axios.post("/auth/login", {
+          username: this.userName,
           password: this.password
         });
 
-        localStorage.setItem("authToken", response.data.token);
-        this.$router.push("/dashboard");
+        localStorage.setItem("accessToken", response.data.token?.accessToken);
+        this.$router.push("/library");
       } catch (err) {
         this.error = err.response?.data?.message;
       }

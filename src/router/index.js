@@ -8,6 +8,7 @@ import BranchView from '../views/BranchView.vue'
 import StudentView from '../views/StudentView.vue'
 import BookView from '../views/BookView.vue'
 import BookItemView from '../views/BookItemView.vue'
+import LibraryView from '../views/LibraryView.vue'
 import axios from 'axios'
 
 Vue.use(VueRouter);
@@ -49,6 +50,11 @@ const routes = [
     component: BookView
   },
   {
+    path: '/library',
+    name: 'library',
+    component: LibraryView
+  },
+  {
     path: '/book-items',
     name: 'book-items',
     component: BookItemView
@@ -62,15 +68,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((req, res, next) => {
-  // if (!localStorage.getItem("authToken")) {
-  //   if (req.path === '/login') {
-  //     return next()
-  //   }
+  if (!localStorage.getItem("accessToken")) {
+    if (req.path === '/login') {
+      return next()
+    }
 
-  //   return next({ name: 'login' })
-  // }
+    return next({ name: 'login' })
+  }
 
-  axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("authToken");
+  axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
 
   next()
 })

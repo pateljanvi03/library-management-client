@@ -27,18 +27,6 @@ export default {
     TopBar
   },
   created() {
-    // if (this.$route.path === "/login") {
-    //   return;
-    // } else if (this.$route.path === "/") {
-    //   this.$router.push("/dashboard");
-    // }
-
-    // axios.defaults.headers.common["Authorization"] =
-    //   "Bearer " + localStorage.getItem("authToken");
-    // if (!localStorage.getItem("authToken")) {
-    //   this.$router.push("/login");
-    // }
-
     axios.interceptors.response.use(
       response => {
         // Any status code that lie within the range of 2xx cause this function to trigger
