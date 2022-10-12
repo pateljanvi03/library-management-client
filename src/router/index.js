@@ -6,6 +6,7 @@ import CategoryView from '../views/CategoryView.vue'
 import DashboardView from '../views/DashboardView.vue'
 import BranchView from '../views/BranchView.vue'
 import StudentView from '../views/StudentView.vue'
+import StudentsView from '../views/StudentsView.vue'
 import BookView from '../views/BookView.vue'
 import BookItemView from '../views/BookItemView.vue'
 import LibraryView from '../views/LibraryView.vue'
@@ -42,6 +43,11 @@ const routes = [
   {
     path: '/students',
     name: 'students',
+    component: StudentsView
+  },
+  {
+    path: '/students/:id',
+    name: 'view-student',
     component: StudentView
   },
   {
