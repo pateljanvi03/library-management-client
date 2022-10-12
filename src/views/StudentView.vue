@@ -3,7 +3,6 @@
     <div class="overflow-hidden bg-white shadow sm:rounded-lg">
       <div class="px-4 py-5 sm:px-6">
         <h3 class="text-lg font-medium leading-6 text-gray-900">Student Information</h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">Personal details and application.</p>
       </div>
       <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
         <dl class="sm:divide-y sm:divide-gray-200">
@@ -102,7 +101,7 @@
                   <th
                     scope="col"
                     class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
-                  >Id</th>
+                  >Book Title</th>
                   <th
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -119,6 +118,10 @@
                     scope="col"
                     class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                   >Return Date</th>
+                  <th
+                    scope="col"
+                    class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                  >Fine Amount</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 bg-white">
@@ -149,13 +152,16 @@
                 <tr v-else v-for="book in books" :key="book._id">
                   <td
                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                  >{{ book.bookItemId }}</td>
+                  >{{ book.bookItemId && book.bookItemId.bookId ? book.bookItemId.bookId.title : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.status }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.issueDate }} - {{ book.issuerUserId && book.issuerUserId.name ? book.issuerUserId.name : '' }}</td>
+                  <td
+                    class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                  >{{ book.issueDate }} - {{ book.issuerUserId && book.issuerUserId.name ? book.issuerUserId.name : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.dueDate }}</td>
                   <td
                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                   >{{ book.returnDate }} - {{ book.collecterUserId && book.collecterUserId.name ? book.collecterUserId.name : '' }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.fineAmount }}</td>
                 </tr>
               </tbody>
             </table>
