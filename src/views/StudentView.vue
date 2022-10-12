@@ -151,11 +151,11 @@
                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                   >{{ book.bookItemId }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.status }}</td>
-                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.issueDate }} - {{book.issuerUserId}}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.issueDate }} - {{ book.issuerUserId && book.issuerUserId.name ? book.issuerUserId.name : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.dueDate }}</td>
                   <td
                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                  >{{ book.returnDate }} - {{book.collecterUserId}}</td>
+                  >{{ book.returnDate }} - {{ book.collecterUserId && book.collecterUserId.name ? book.collecterUserId.name : '' }}</td>
                 </tr>
               </tbody>
             </table>
