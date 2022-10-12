@@ -28,7 +28,7 @@
               <label for="barnch" class="block text-sm font-medium text-black-700">Branch</label>
               <ValidationProvider name="Branch" rules="required" v-slot="{ errors }">
                 <select
-                  v-model="student.branch"
+                  v-model="student.branchId"
                   class="mt-1 w-full border pl-3 pr-10 py-2 text-base border-gray-300 sm:text-sm rounded-md"
                 >
                   <option value>Select branch</option>
@@ -173,7 +173,7 @@ export default {
     return {
       student: {
         name: "",
-        branch: "",
+        branchId: "",
         enrollmentNumber: undefined,
         phone: undefined,
         email: undefined,
@@ -203,7 +203,7 @@ export default {
       } else {
         this.student = {
           name: "",
-          branch: "",
+          branchId: "",
           enrollmentNumber: undefined,
           phone: undefined,
           email: undefined,
@@ -231,7 +231,7 @@ export default {
 
       this.student = {
         name: "",
-        branch: "",
+        branchId: "",
         enrollmentNumber: undefined,
         phone: undefined,
         email: undefined,

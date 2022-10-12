@@ -18,7 +18,7 @@
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Branch</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{student.branch}}</dd>
+            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ student.branch ? student.branch.title : '' }}</dd>
           </div>
           <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Batch</dt>
@@ -151,16 +151,16 @@
                 </tr>
                 <tr v-else v-for="book in books" :key="book._id">
                   <td
-                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
-                  >{{ book.bookItemId && book.bookItemId.bookId ? book.bookItemId.bookId.title : '' }}</td>
+                    class="whitespace-nowrap py-4     pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                  >{{ book.bookItem && book.bookItem.book ? book.bookItem.book.title : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.status }}</td>
                   <td
                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                  >{{ book.issueDate }} - {{ book.issuerUserId && book.issuerUserId.name ? book.issuerUserId.name : '' }}</td>
+                  >{{ book.issueDate }} - {{ book.issuerUser  ? book.issuerUser.name : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.dueDate }}</td>
                   <td
                     class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                  >{{ book.returnDate }} - {{ book.collecterUserId && book.collecterUserId.name ? book.collecterUserId.name : '' }}</td>
+                  >{{ book.returnDate }} - {{ book.collecterUser ? book.collecterUser.name : '' }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ book.fineAmount }}</td>
                 </tr>
               </tbody>
@@ -241,6 +241,7 @@ export default {
     async findStudent() {
       const response = await axios.get('/students/' + this.studentId)
       this.student = response.data.student
+      console.log(this.student)
       this.loadBorrowedBooks()
     },
     async loadBorrowedBooks() {

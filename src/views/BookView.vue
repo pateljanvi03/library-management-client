@@ -138,7 +138,7 @@
                           >{{ book.ISBN }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
-                          >{{ book.categoryId.title }}</td>
+                          >{{ book.category ? book.category.title : '' }}</td>
                           <td
                             class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                           >{{ book.author }}</td>
