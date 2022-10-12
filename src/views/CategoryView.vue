@@ -50,6 +50,10 @@
                             scope="col"
                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                           >Category</th>
+                          <th
+                            scope="col"
+                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+                          >No. of Books</th>
                           <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                             <span class="sr-only">Edit</span>
                           </th>
@@ -83,8 +87,11 @@
                         </tr>
                         <tr v-else v-for="category in categories" :key="category._id">
                           <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
+                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  text-gray-900 sm:pl-6"
                           >{{ category.title }}</td>
+                          <td
+                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  text-gray-900 sm:pl-6"
+                          >{{ category.booksCount }}</td>
                           <td
                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
                           >

@@ -57,7 +57,7 @@
               <div class="flex items-center space-x-3">
                 <h3
                   class="truncate text-sm font-medium text-gray-900"
-                >Id: {{ borrowedBook.bookItemId }}</h3>
+                >Name: {{ borrowedBook.bookItem.book.title }}</h3>
               </div>
               <p
                 class="mt-1 truncate text-sm text-gray-500"
@@ -69,19 +69,12 @@
           </div>
           <div>
             <div class="-mt-px flex divide-x divide-gray-200">
-              <div class="flex w-0 flex-1">
-                <a
-                  class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500"
-                >
-                  <span class="ml-3">View</span>
-                </a>
-              </div>
               <div class="-ml-px flex w-0 flex-1">
                 <button
                   @click="returnBook(borrowedBook);"
                   class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500"
                 >
-                  <span class="ml-3">Return</span>
+                  <span class="ml-3 text-green-700">Return</span>
                 </button>
               </div>
             </div>
@@ -186,7 +179,7 @@
                   <option value="10">10</option>
                   <option value="20">20</option>
                 </select>
-
+  
                 <button
                   :disabled="disablePreviousButton"
                   @click="previousPage"
@@ -241,7 +234,6 @@ export default {
     async findStudent() {
       const response = await axios.get('/students/' + this.studentId)
       this.student = response.data.student
-      console.log(this.student)
       this.loadBorrowedBooks()
     },
     async loadBorrowedBooks() {

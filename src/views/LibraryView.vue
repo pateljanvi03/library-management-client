@@ -14,6 +14,16 @@
             >
               <StudentSearchForm @studentId="studentId" @refresh="issueBook"> </StudentSearchForm>
             </modal>
+            <modal
+            name="book-form"
+            height="auto"
+            :min-width="200"
+            :min-height="200"
+            :scrollable="true"
+            :reset="true"
+          >
+            <BookViewForm :viewBook="viewBook"></BookViewForm>
+          </modal>
             <div>
               <h2
                 id="payment-details-heading"
@@ -122,7 +132,9 @@
       <div>
         <div class="-mt-px flex divide-x divide-gray-200">
           <div class="flex w-0 flex-1">
-            <a :href="`mailto:${book.author}`" class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
+            <a
+            @click="showBookView(book)"
+            class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
               <span class="ml-3">View</span>
             </a>
           </div>
@@ -152,17 +164,12 @@
       </div>
       <div>
         <div class="-mt-px flex divide-x divide-gray-200">
-          <div class="flex w-0 flex-1">
-            <button class="relative -mr-px inline-flex w-0 flex-1 items-center justify-center rounded-bl-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-              <span class="ml-3">View</span>
-            </button>
-          </div>
           <div class="-ml-px flex w-0 flex-1">
             <button v-if="bookItem.status === 'borrowed'" @click="returnBook(bookItem)" class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-              <span  class="ml-3">Return</span>
+              <span  class="ml-3 text-green-700 font-bold">Return</span>
             </button>
             <button v-else type="button" @click="showForm(bookItem)" class="relative inline-flex w-0 flex-1 items-center justify-center rounded-br-lg border border-transparent py-4 text-sm font-medium text-gray-700 hover:text-gray-500">
-              <span class="ml-3">Issue</span>
+              <span class="ml-3  text-blue-700 font-bold">Issue</span>
             </button>
           </div>
         </div>
@@ -188,7 +195,8 @@ export default {
       selectedBook: undefined,
       bookItems: [],
       selectedBookItem: undefined,
-      borrowerId: undefined
+      borrowerId: undefined,
+      viewBook: undefined
     }
   },
   created() {
@@ -235,6 +243,10 @@ export default {
     },
     async studentId(id) {
       this.borrowerId = id;
+    },
+    showBookView(book) {
+      this.viewBook = book;
+      this.$modal.show("book-form");
     }
   }
 }
