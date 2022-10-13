@@ -64,7 +64,7 @@ const routes = [
     path: '/book-items',
     name: 'book-items',
     component: BookItemView
-  }
+  },
 ];
 
 const router = new VueRouter({
